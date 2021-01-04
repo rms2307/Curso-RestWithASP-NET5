@@ -32,7 +32,7 @@ namespace Curso_RestWithASP_NET5.Services.Implementations
             return persons;
         }
 
-        public Person FindByIs(long id)
+        public Person FindById(long id)
         {
             return new Person
             {
