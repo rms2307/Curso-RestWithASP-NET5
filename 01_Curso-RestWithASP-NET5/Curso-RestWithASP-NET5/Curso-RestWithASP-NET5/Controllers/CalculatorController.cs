@@ -11,11 +11,6 @@ namespace Curso_RestWithASP_NET5.Controllers
     [Route("[controller]")]
     public class CalculatorController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<CalculatorController> _logger;
 
         public CalculatorController(ILogger<CalculatorController> logger)
@@ -23,17 +18,38 @@ namespace Curso_RestWithASP_NET5.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("sum/{firstNumber}/{secondNumber}")]
+        public IActionResult Get(string firstNumber, string secondNumber)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+                var sum = ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber);
+                return Ok(sum.ToString());
+            }
+
+            return BadRequest("Entrada Invalida");
         }
+
+        private bool IsNumeric(string strNumber)
+        {
+            double number;
+            bool isNumber = double.TryParse(
+                strNumber,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.NumberFormatInfo.InvariantInfo,
+                out number);
+            return isNumber;
+        }
+
+        private decimal ConvertToDecimal(string strNumber)
+        {
+            decimal decimalValue;
+            if (decimal.TryParse(strNumber, out decimalValue))
+            {
+                return decimalValue;
+            }
+            return 0;
+        }
+
     }
 }
