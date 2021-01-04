@@ -5,4 +5,8 @@
     <RootNamespace>Curso_RestWithASP_NET5</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
 </Project>
