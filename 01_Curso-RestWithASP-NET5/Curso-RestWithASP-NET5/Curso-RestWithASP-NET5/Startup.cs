@@ -30,6 +30,8 @@ namespace Curso_RestWithASP_NET5
 
             services.AddControllers();
 
+            var connection = Configuration["MySQLConnection: MySQLConnectionString"];
+
             services.AddScoped<IPersonService, PersonServiceImplementation>();
         }
 
