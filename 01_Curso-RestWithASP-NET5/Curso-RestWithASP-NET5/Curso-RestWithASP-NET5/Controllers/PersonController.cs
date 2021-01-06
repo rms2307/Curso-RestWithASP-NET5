@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Curso_RestWithASP_NET5.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/v{version:apiVersion}")]
     public class PersonController : ControllerBase
     {
         private readonly ILogger<PersonController> _logger;
