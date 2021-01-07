@@ -1,6 +1,6 @@
 using Curso_RestWithASP_NET5.Model.Context;
-using Curso_RestWithASP_NET5.Services;
-using Curso_RestWithASP_NET5.Services.Implementations;
+using Curso_RestWithASP_NET5.Business;
+using Curso_RestWithASP_NET5.Business.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Curso_RestWithASP_NET5.Repository;
+using Curso_RestWithASP_NET5.Repository.Implementations;
 
 namespace Curso_RestWithASP_NET5
 {
@@ -37,7 +39,8 @@ namespace Curso_RestWithASP_NET5
 
             services.AddApiVersioning();
 
-            services.AddScoped<IPersonService, PersonServiceImplementation>();
+            services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
+            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
