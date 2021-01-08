@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Curso_RestWithASP_NET5.Data.VO;
 
 namespace Curso_RestWithASP_NET5.Controllers
 {
@@ -38,14 +39,14 @@ namespace Curso_RestWithASP_NET5.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Book book)
+        public IActionResult Post([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
             return Ok(_bookBusiness.Create(book));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Book book)
+        public IActionResult Put([FromBody] BookVO book)
         {
             if (book == null) return BadRequest();
             return Ok(_bookBusiness.Update(book));
