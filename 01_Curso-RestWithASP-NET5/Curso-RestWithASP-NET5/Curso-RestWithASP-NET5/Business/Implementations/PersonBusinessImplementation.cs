@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace Curso_RestWithASP_NET5.Business.Implementations
 {
-    public class BookBusinessImplementation : IBookBusiness
+    public class PersonBusinessImplementation : IPersonBusiness
     {
-        private readonly IBookRepository _repository;
+        private readonly IRepository<Person> _repository;
 
-        public BookBusinessImplementation(IBookRepository repository)
+        public PersonBusinessImplementation(IRepository<Person> repository)
         {
             _repository = repository;
         }
 
-        public Book Create(Book book)
+        public Person Create(Person person)
         {
-            return _repository.Create(book);
+            return _repository.Create(person);
         }
 
         public void Delete(long id)
@@ -28,19 +28,19 @@ namespace Curso_RestWithASP_NET5.Business.Implementations
             _repository.Delete(id);
         }
 
-        public List<Book> FindAll()
+        public List<Person> FindAll()
         {
             return _repository.FindAll();
         }
 
-        public Book FindById(long id)
+        public Person FindById(long id)
         {
             return _repository.FindById(id);
         }
 
-        public Book Update(Book book)
+        public Person Update(Person person)
         {
-            return _repository.Update(book);
+            return _repository.Update(person);
         }
     }
 }

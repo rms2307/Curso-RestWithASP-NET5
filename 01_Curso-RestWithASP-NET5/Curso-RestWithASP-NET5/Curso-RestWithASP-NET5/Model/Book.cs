@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using Curso_RestWithASP_NET5.Model.Base;
 
 namespace Curso_RestWithASP_NET5.Model
 {
     [Table("book")]
-    public class Book
+    public class Book : BaseEntity
     {
-        [Column("id")]
-        public long Id { get; set; }
-
         [Column("title")]
         public string Title { get; set; }
 

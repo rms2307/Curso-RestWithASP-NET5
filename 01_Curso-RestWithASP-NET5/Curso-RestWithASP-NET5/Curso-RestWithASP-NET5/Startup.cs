@@ -15,8 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Curso_RestWithASP_NET5.Repository;
-using Curso_RestWithASP_NET5.Repository.Implementations;
 using Serilog;
+using Curso_RestWithASP_NET5.Repository.Generic;
 
 namespace Curso_RestWithASP_NET5
 {
@@ -50,9 +50,9 @@ namespace Curso_RestWithASP_NET5
             services.AddApiVersioning();
 
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
-            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
-            services.AddScoped<IBookRepository, BookRepositoryImplementation>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

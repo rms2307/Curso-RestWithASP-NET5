@@ -1,44 +1,47 @@
-﻿using Curso_RestWithASP_NET5.Model;
+﻿using Curso_RestWithASP_NET5.Model.Base;
 using Curso_RestWithASP_NET5.Model.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace Curso_RestWithASP_NET5.Repository.Implementations
+namespace Curso_RestWithASP_NET5.Repository.Generic
 {
-    public class PersonRepositoryImplementation : IPersonRepository
+    public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
         private MySQLContext _context;
 
-        public PersonRepositoryImplementation(MySQLContext context)
+        private DbSet<T> dataset;
+
+        public GenericRepository(MySQLContext context)
         {
             _context = context;
+            dataset = _context.Set<T>();
         }
 
-        public Person Create(Person person)
+        public T Create(T item)
         {
             try
             {
-                _context.Add(person);
+                dataset.Add(item);
                 _context.SaveChanges();
+                return item;
             }
             catch (Exception)
             {
                 throw;
             }
-            return person;
         }
 
         public void Delete(long id)
         {
-            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(id));
+            var result = dataset.SingleOrDefault(p => p.Id.Equals(id));
             if (result != null)
             {
                 try
                 {
-                    _context.Remove(result);
+                    dataset.Remove(result);
                     _context.SaveChanges();
                 }
                 catch (Exception)
@@ -48,39 +51,40 @@ namespace Curso_RestWithASP_NET5.Repository.Implementations
             }
         }
 
-        public List<Person> FindAll()
+        public List<T> FindAll()
         {
-            return _context.Persons.ToList();
+            return dataset.ToList();
         }
 
-        public Person FindById(long id)
+        public T FindById(long id)
         {
-            return _context.Persons.SingleOrDefault(p => p.Id.Equals(id));
+            return dataset.SingleOrDefault(p => p.Id.Equals(id));
         }
 
-        public Person Update(Person person)
+        public T Update(T item)
         {
-            if (!Exists(person.Id)) return null;
-
-            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
+            var result = dataset.SingleOrDefault(p => p.Id.Equals(item.Id));
             if (result != null)
             {
                 try
                 {
-                    _context.Entry(result).CurrentValues.SetValues(person);
+                    _context.Entry(result).CurrentValues.SetValues(item);
                     _context.SaveChanges();
+                    return result;
                 }
                 catch (Exception)
                 {
                     throw;
                 }
             }
-            return person;
+            else
+            {
+                return null;
+            }
         }
-
         public bool Exists(long id)
         {
-            return _context.Persons.Any(p => p.Id.Equals(id));
+            return dataset.Any(p => p.Id.Equals(id));
         }
     }
 }
