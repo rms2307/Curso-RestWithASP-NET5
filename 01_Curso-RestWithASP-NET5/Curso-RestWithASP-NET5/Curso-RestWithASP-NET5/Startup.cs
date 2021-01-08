@@ -18,6 +18,8 @@ using Curso_RestWithASP_NET5.Repository;
 using Serilog;
 using Curso_RestWithASP_NET5.Repository.Generic;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace Curso_RestWithASP_NET5
 {
@@ -58,6 +60,22 @@ namespace Curso_RestWithASP_NET5
 
             services.AddApiVersioning();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Curso API REST com ASP.Net 5",
+                        Version = "v1",
+                        Description = "API REST desenvolvida no curso 'Curso API REST com ASP.Net 5'",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Robson de Moraes Silva",
+                            Url = new Uri("https://github.com/rms2307")
+                        }
+                    });
+            });
+
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
 
@@ -75,6 +93,16 @@ namespace Curso_RestWithASP_NET5
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Curso API REST com ASP.Net 5");
+            });
+
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
 
             app.UseAuthorization();
 
