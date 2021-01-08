@@ -11,11 +11,12 @@ namespace Curso_RestWithASP_NET5.Data.Converter.Implementations
         public Person Parse(PersonVO origin)
         {
             if (origin == null) return null;
+            var array = origin.FullName.Split(" ");
             return new Person
             {
                 Id = origin.Id,
-                FirstName = origin.FirstName,
-                LastName = origin.LastName,
+                FirstName = array[0],
+                LastName = array[1],
                 Address = origin.Address,
                 Gender = origin.Gender
             };
@@ -27,8 +28,7 @@ namespace Curso_RestWithASP_NET5.Data.Converter.Implementations
             return new PersonVO
             {
                 Id = origin.Id,
-                FirstName = origin.FirstName,
-                LastName = origin.LastName,
+                FullName = origin.FirstName + " " + origin.LastName,
                 Address = origin.Address,
                 Gender = origin.Gender
             };
